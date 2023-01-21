@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.39.1"
     }
   }
@@ -9,7 +9,7 @@ terraform {
 
 provider "azurerm" {
   features {
-    
+
   }
 }
 
@@ -48,17 +48,17 @@ resource "azurerm_network_interface" "main" {
     name                          = "testconfiguration1"
     subnet_id                     = azurerm_subnet.subnet1.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.pip1.id
+    public_ip_address_id          = azurerm_public_ip.pip1.id
   }
 }
 
 resource "azurerm_virtual_machine" "vm1" {
-  name                  = var.vm_name
-  location              = var.location
-  resource_group_name   = azurerm_resource_group.rg1.name
-  network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size               = "Standard_DS1_v2"
-  delete_os_disk_on_termination = true
+  name                             = var.vm_name
+  location                         = var.location
+  resource_group_name              = azurerm_resource_group.rg1.name
+  network_interface_ids            = [azurerm_network_interface.main.id]
+  vm_size                          = "Standard_DS1_v2"
+  delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
   storage_image_reference {
@@ -77,12 +77,12 @@ resource "azurerm_virtual_machine" "vm1" {
     computer_name  = "hostname"
     admin_username = var.admin_username
     admin_password = var.admin_password
-    custom_data = data.template_file.userdata.rendered
+    custom_data    = data.template_file.userdata.rendered
   }
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      path = "/home/ccseyhan/.ssh/authorized_keys"
+      path     = "/home/ccseyhan/.ssh/authorized_keys"
       key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCYBkJ3y1tV6p8KApdM+Z97qYqO8QMTdL66B3ZRFA/MQ6q6FutPI4uyCTWbSB3z6vQU0OqfkJhSRElgUbBVM8aCa+we5CSa9Cr5AuM2MCJlelZTnfBAOUY1CaIRlvXB5jNLEplRpY2wnh2S6yRMbD72U6cE/zPW0Zc+0uu2ffzdy2wxhc0vAoLn3h5OwgZ1NoGsZMPQYZyPuxlfeShaC7EXqRDXvcRZKQktElnSQcyRN14glgt+AwYUFYF7vjxju2HnVsgJi8saPtEKvYETwkwmhs9KZJOavxI8+hveoSaFN5zMhuFIVDAo5G1LtmsDir7ibAGG4XZuuCMLhlGUxZLBJt7+AvG7AnjJnigBnAhaC1LGG3HKpkZ/YxQaZnv2vWiWqohD+FTY8uDzjug2eK0Y+hNyKoib1KfIClXoKfAINUn5RH5zxWxFsBALbVIcIR4hMY7Y0Ul5rE+eAOjai9VS7nkNci6QOO7tnbiS/VaZiqevlOrJJoGG0U2D37lLLKukNc1KXHAU108iL/TuA77s5NA/rQykOxn1LAlL8Z7LcUV6fKEg4NaXOxiCaC6zU1tZBy1okcSfOK0fSyw6Ymq2/QJsjdEIkdQz4SEyWotQLPLIPZKJHHle+NMyfm+7tkaINdm5FMYZi4bQ8L34ctgVXA2RRJuSZPE+p2y8qh8I5Q=="
     }
   }
@@ -94,33 +94,33 @@ data "template_file" "userdata" {
 }
 
 resource "azurerm_network_security_group" "nsg1" {
-    name                = "nsgwithsshandhttpopen"
-    location            = var.location
-    resource_group_name = azurerm_resource_group.rg1.name
+  name                = "nsgwithsshandhttpopen"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg1.name
 
-    security_rule {
-        name                       = "AllowSSH"
-        priority                   = 100
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-    }
+  security_rule {
+    name                       = "AllowSSH"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 
-    security_rule {
-        name                       = "AllowHttp"
-        priority                   = 110
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "80"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-    }
+  security_rule {
+    name                       = "AllowHttp"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 # resource "azurerm_virtual_machine_extension" "ssh" {
