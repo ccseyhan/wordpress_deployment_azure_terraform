@@ -123,6 +123,11 @@ resource "azurerm_network_security_group" "nsg1" {
   }
 }
 
+
+
+
+#This resource can be utilized for the VMs that have already been deployed.
+
 # resource "azurerm_virtual_machine_extension" "ssh" {
 
 #   name                         = "ssh"
@@ -138,4 +143,22 @@ resource "azurerm_network_security_group" "nsg1" {
 # }
 
 
+
 # ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+
+# resource "azurerm_storage_account" "sa1" {
+#   name                     = "ccseyhantest1234"
+#   resource_group_name      = azurerm_resource_group.rg1.name
+#   location                 = var.location
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
+# }
+
+# resource "azurerm_storage_share" "example" {
+#   name                 = "sharename"
+#   storage_account_name = azurerm_storage_account.sa1.name
+#   quota                = 50
+
+# }
+

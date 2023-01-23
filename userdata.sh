@@ -10,3 +10,4 @@ git clone https://github.com/ccseyhan/wordpress_deployment_terraform.git
 docker-compose -f /wordpress_deployment_terraform/docker-compose.yaml up --build -d
 
 
+
